@@ -6,9 +6,7 @@ var logger = require('morgan')
 const cors = require('cors')
 const mongoose = require('mongoose')
 
-var indexRouter = require('./routes/index')
-var recipeRouter = require('./routes/recipes')
-var menuRouter = require('./routes/menus')
+var booksRouter = require('./routes/books')
 
 var app = express()
 require('dotenv').config()
@@ -35,9 +33,7 @@ app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
 
-app.use('/', indexRouter)
-app.use('/recipes', recipeRouter)
-app.use('/menus', menuRouter)
+app.use('/books', booksRouter)
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
