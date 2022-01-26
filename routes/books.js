@@ -25,16 +25,27 @@ router.post('/addbook', function (req, res, next) {
 router.get('/', function (req, res, next) {
     bookModel
         .find()
-        .populate('Recipes')
         .sort('-dateAdded')
-        .exec((err, recipes) => {
+        .exec((err, books) => {
             if (err) throw err
-            res.send(JSON.stringify(recipes))
+            res.send(JSON.stringify(books))
         })
 })
 
-router.delete('/:menuID', function (req, res, next) {
-    bookModel.deleteOne({ _id: req.params.menuID }).exec((err, result) => {
+router.get('/:booktitle', function (req, res, next) {
+    const reqtitle = req.params.booktitle
+    bookModel
+        .find({ title: reqtitle})
+        .sort('-dateAdded')
+        .exec((err, books) => {
+            if (err) throw err
+            res.send(JSON.stringify(books))
+        })
+})
+
+
+router.delete('/:bookID', function (req, res, next) {
+    bookModel.deleteOne({ _id: req.params.bookID }).exec((err, result) => {
         if (err) throw err
         res.send(`Menu with the id ${req.params.menuID} deleted`)
     })

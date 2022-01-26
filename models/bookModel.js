@@ -11,7 +11,9 @@ const book = mongoose.model(
         rating: {type: Number},
         read: {type: Boolean, require: true},
         wishlist: {type: Boolean, require: true},
-        notes: {type: String},
+        highlightnotes: {type: [String]},
+        review: {type: String},
+        notes: {type: [String]},
         dateRead: { type: Date, default: Date.now },
     })
 )
