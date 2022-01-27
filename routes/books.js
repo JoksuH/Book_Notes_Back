@@ -9,6 +9,7 @@ router.post('/addbook', function (req, res, next) {
         author: req.body.author,
         isbn: req.body.isbn,
         description: req.body.description,
+        categories: req.body.categories,
         imageurl: req.body.imageurl,
         read: req.body.read,
         wishlist: req.body.wishlist,

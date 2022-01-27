@@ -7,6 +7,7 @@ const book = mongoose.model(
         author: {type: String, require: true},
         isbn: {type: String, require: true},
         description: {type: String, require: true},
+        categories: {type: [String], require: true},
         imageurl: {type: String},
         rating: {type: Number},
         read: {type: Boolean, require: true},
