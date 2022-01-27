@@ -7,6 +7,7 @@ const cors = require('cors')
 const mongoose = require('mongoose')
 
 var booksRouter = require('./routes/books')
+var categoryRouter = require('./routes/categories')
 
 var app = express()
 require('dotenv').config()
@@ -34,6 +35,7 @@ app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
 
 app.use('/books', booksRouter)
+app.use('/categories', categoryRouter)
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

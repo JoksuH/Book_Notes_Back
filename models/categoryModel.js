@@ -4,13 +4,7 @@ const category = mongoose.model(
     'category',
     new mongoose.Schema({
         name: { type: String, required: true },
-        books: [
-            {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: 'book',
-                required: true,
-            },
-        ],
+        books: [{ type: String, required: true }],
     })
 )
 
