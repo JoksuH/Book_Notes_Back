@@ -43,11 +43,12 @@ router.get('/:booktitle', function (req, res, next) {
         })
 })
 
-router.put('/catories/:bookId', function (req, res, next) {
+router.put('/categories/:bookId', function (req, res, next) {
     bookModel
         .findOne({ _id: req.params.bookId})
         .exec((err, book) => {
             if (err) throw err
+            console.log(book)
             book.categories = req.body.categories
             book.save((err) => {
                 if (err) throw err

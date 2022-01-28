@@ -61,22 +61,44 @@ router.post('/', function (req, res, next) {
 })
 
 router.put('/', function (req, res, next) {
+    const originalCategories = req.body.originalcategories
+    //Checks if some previous categories selected in the database have been removed in new selection
+    let removedcategories = originalCategories.filter(
+        (element) => !req.body.categories.includes(element)
+    )
     categoryModel
-    .find({ name: req.body.categories })
-    .exec((err, categories) => {
-        if (err) throw err
-        else {
-            categories.forEach(category => {
-                if (!category.books.includes(req.body.booktitle)) {
-                category.books.push(req.body.booktitle)
-                category.save((err) => {
-                    if (err) throw err
-                })    
+        .find({ name: req.body.categories })
+        .exec((err, categories) => {
+            if (err) throw err
+            else {
+                categories.forEach((category) => {
+                    if (!category.books.includes(req.body.booktitle)) {
+                        category.books.push(req.body.booktitle)
+                        category.save((err) => {
+                            if (err) throw err
+                        })
+                    }
+                })
             }
+        })
+    if (removedcategories.length > 0) {
+        categoryModel
+            .find({ name: removedcategories })
+            .exec((err, categories) => {
+                if (err) throw err
+                categories.forEach((category) => {
+                    //Keep books other than the removed one
+                    category.books = category.books.filter(
+                        (book) => book !== req.body.booktitle
+                    )
+                    category.save((err) => {
+                        if (err) throw err
+                    })
+                })
+                res.send('Book added')
             })
-            res.send('Book added')
-        }
-    })
+    }
+    res.send('Book added')
 })
 
 module.exports = router
