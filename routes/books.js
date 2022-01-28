@@ -2,7 +2,7 @@ var express = require('express')
 var router = express.Router()
 const bookModel = require('./../models/bookModel')
 
-/* post a menu recipe */
+/* add a new book */
 router.post('/addbook', function (req, res, next) {
     const newbook = new bookModel({
         title: req.body.title,
@@ -21,8 +21,7 @@ router.post('/addbook', function (req, res, next) {
     })
 })
 
-//Get all menus
-
+//Get all books
 router.get('/', function (req, res, next) {
     bookModel
         .find()
@@ -44,6 +43,18 @@ router.get('/:booktitle', function (req, res, next) {
         })
 })
 
+router.put('/catories/:bookId', function (req, res, next) {
+    bookModel
+        .findOne({ _id: req.params.bookId})
+        .exec((err, book) => {
+            if (err) throw err
+            book.categories = req.body.categories
+            book.save((err) => {
+                if (err) throw err
+                res.send('categories added')
+            })    
+        })
+    })
 
 router.delete('/:bookID', function (req, res, next) {
     bookModel.deleteOne({ _id: req.params.bookID }).exec((err, result) => {

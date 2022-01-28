@@ -60,4 +60,23 @@ router.post('/', function (req, res, next) {
     })
 })
 
+router.put('/', function (req, res, next) {
+    categoryModel
+    .find({ name: req.body.categories })
+    .exec((err, categories) => {
+        if (err) throw err
+        else {
+            categories.forEach(category => {
+                if (!category.books.includes(req.body.booktitle)) {
+                category.books.push(req.body.booktitle)
+                category.save((err) => {
+                    if (err) throw err
+                })    
+            }
+            })
+            res.send('Book added')
+        }
+    })
+})
+
 module.exports = router
