@@ -35,7 +35,7 @@ router.get('/', function (req, res, next) {
 router.get('/:booktitle', function (req, res, next) {
     const reqtitle = req.params.booktitle
     bookModel
-        .find({ title: reqtitle})
+        .find({ title: reqtitle })
         .sort('-dateAdded')
         .exec((err, books) => {
             if (err) throw err
@@ -43,19 +43,28 @@ router.get('/:booktitle', function (req, res, next) {
         })
 })
 
-router.put('/categories/:bookId', function (req, res, next) {
-    bookModel
-        .findOne({ _id: req.params.bookId})
-        .exec((err, book) => {
+router.put('/:bookId', function (req, res, next) {
+    bookModel.findOne({ _id: req.params.bookId }).exec((err, book) => {
+        if (err) throw err
+        book.categories = req.body.categories
+        if (req.body.rating) {
+            book.rating = req.body.rating
+        }
+        if (req.body.highlightednotes) {
+            book.highlightnotes = req.body.highlightednotes
+        }
+        if (req.body.review) {
+            book.review = req.body.review
+        }
+        if (req.body.notes) {
+            book.notes = req.body.notes
+        }
+        book.save((err) => {
             if (err) throw err
-            console.log(book)
-            book.categories = req.body.categories
-            book.save((err) => {
-                if (err) throw err
-                res.send('categories added')
-            })    
+            res.send('categories added')
         })
     })
+})
 
 router.delete('/:bookID', function (req, res, next) {
     bookModel.deleteOne({ _id: req.params.bookID }).exec((err, result) => {
