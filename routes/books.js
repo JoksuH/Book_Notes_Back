@@ -45,6 +45,7 @@ router.get('/:booktitle', function (req, res, next) {
 
 router.put('/:bookId', function (req, res, next) {
     bookModel.findOne({ _id: req.params.bookId }).exec((err, book) => {
+        console.log(book)
         if (err) throw err
         book.categories = req.body.categories
         if (req.body.rating) {
@@ -59,9 +60,12 @@ router.put('/:bookId', function (req, res, next) {
         if (req.body.notes) {
             book.notes = req.body.notes
         }
+        if (req.body.dateRead) {
+            book.dateRead = req.body.dateRead
+        }
         book.save((err) => {
             if (err) throw err
-            res.send('categories added')
+            res.send('Info Updated')
         })
     })
 })

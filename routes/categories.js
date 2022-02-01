@@ -16,7 +16,7 @@ router.get('/', function (req, res, next) {
 
 router.post('/', function (req, res, next) {
     categoryModel.exists({ name: req.body.category }, (err, result) => {
-        if (err) console.log(err)
+        if (err) throw err
         //If category with the same name has not been found in database, create it
         else if (!result) {
             const category = new categoryModel({
@@ -46,7 +46,6 @@ router.post('/', function (req, res, next) {
             categoryModel
                 .findOne({ name: req.body.category })
                 .exec((err, category) => {
-                    console.log(category)
                     if (err) throw err
                     else {
                         category.books.push(req.body.booktitle)
@@ -95,10 +94,9 @@ router.put('/', function (req, res, next) {
                         if (err) throw err
                     })
                 })
-                res.send('Book added')
             })
     }
-    res.send('Book added')
+    res.send('Categories Updated')
 })
 
 module.exports = router
