@@ -25,7 +25,7 @@ router.post('/addbook', function (req, res, next) {
 router.get('/', function (req, res, next) {
     bookModel
         .find()
-        .sort('-dateAdded')
+        .sort('-dateRead')
         .exec((err, books) => {
             if (err) throw err
             res.send(JSON.stringify(books))
@@ -36,7 +36,7 @@ router.get('/:booktitle', function (req, res, next) {
     const reqtitle = req.params.booktitle
     bookModel
         .find({ title: reqtitle })
-        .sort('-dateAdded')
+        .sort('-dateRead')
         .exec((err, books) => {
             if (err) throw err
             res.send(JSON.stringify(books))
@@ -45,7 +45,6 @@ router.get('/:booktitle', function (req, res, next) {
 
 router.put('/:bookId', function (req, res, next) {
     bookModel.findOne({ _id: req.params.bookId }).exec((err, book) => {
-        console.log(book)
         if (err) throw err
         book.categories = req.body.categories
         if (req.body.rating) {
